@@ -24,7 +24,7 @@ COPYRIGHT INFO:
 
 Author: Vineeta Gupta
 Version: 1.0
-Available At: https://github.com/GVineeta/Vineeta-NanoDegree-Project-3
+Available At: https://github.com/GVineeta/Vineeta-NanoDegree-Project-3-Ver-2
 Copyright: Feburary 2016 All rights reserved
 
 ---------------------------------
