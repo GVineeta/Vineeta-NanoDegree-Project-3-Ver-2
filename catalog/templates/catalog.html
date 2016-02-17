@@ -1,0 +1,115 @@
+<!-- 
+file: catalog.html - main page of the  catalaog project
+Created by: Vineeta Gupta
+Date: 14 Feburary 2016
+-->
+
+<!Doctype html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width-device-width, initial-scale=1.0">
+		<link href="/static/css/bootstrap.css" rel="stylesheet">
+		<link href="/static/css/styles.css" rel="stylesheet">
+</head>
+<Body style="background-color:#DBDFE3">
+	{% include "header.html" %}
+	<div class="container top-margin">
+		{% set count = 0 %}
+		{% for categorie in categories %}
+			<div class="col-md-12">
+			<div class="panel panel-primary">
+				<div class="panel-heading" >
+					<h3 class="panel-title" >
+						<div class="col-md-1">
+							<ul class="enlarge" >
+								<li>
+									{% if categorie.picture %}
+									<!--Show the thumbnail of the image and on hover show the full image in popup-->
+										<img src ='{{"/static/images/"+categorie.picture}}' width='40' height = '40' />
+										<span> <!--span contains the popup image-->
+										<img src='{{"/static/images/" +categorie.picture}}' width='200' height = '200' alt="{{categorie.name}}" /> <!--popup image-->
+										</span>
+									{% endif  %}
+								</li>
+							</ul>
+						</div>
+						Category - {{categorie.name}}
+						<!--If user is logged in and the categorie is created by this user, show the Add Item Image-->
+						{% if 'username' in login_session %}
+						{% if login_session['email'] == categorie.user.email %}
+							<span class="glyphicon glyphicon-plus pull-right add-padding" >
+							<a href = "{{url_for('addItem', categorie_id = categorie.id)}}" class="pull-right a" >
+							Add Item</a>
+							</span>
+						{% endif  %}
+						{% endif  %}
+					</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-12" >
+							<table class="table table-condensed no-padding no-spacing" >
+								<!--If there are no items available in the categorie, show 'No Items Available' message -->
+								{% set item = items[count] %}
+								{% if item|count == 0 %}
+									<tr class="no-padding " >
+										<td style="vertical-align:top" width="200px">No Items Available.</td>
+									</tr>
+								{% else  %}
+									<th style="width:50px"> Item </th>
+									<th> Item Name</th>
+									<th> Item description</th>
+									<!--If user is logged in and the categorie is created by this user, then only actions like edit & delete would be visible-->
+									{% if 'username' in login_session %}
+									{% if login_session['email'] == categorie.user.email %}
+									<th><div class="pull-right">Item Action</div></th>
+									{% endif  %}
+									{% endif  %}
+									{% for oneitem in item %}
+									<tr class="no-padding " >
+										<td style="vertical-align:top">
+											<ul class="enlarge">
+												<li>
+													{% if oneitem.picture %}
+													<!--Show the thumbnail of the image and on hover show the full image in popup-->
+													<img src ='{{"/static/images/" +oneitem.picture}}' width='40' height = '40' alt ='This is item image'/>
+													<span> <!--span contains the popup image-->
+														<img src='{{"/static/images/" +oneitem.picture}}' width='200' height = '200' alt="{{oneitem.name}}" /> <!--popup image-->
+													</span>
+													{% endif  %}
+												</li>
+											</ul>
+										</td>
+										<td style="vertical-align:middle">{{oneitem.name}}</td>
+										<td style="vertical-align:middle">{{oneitem.description}}</td>
+										<td style="vertical-align:middle">
+											{% if 'username' in login_session %}
+											{% if login_session['email'] == oneitem.user.email %}
+											<!--Show the edit & delete buttons-->
+											<span class="glyphicon glyphicon-pencil pull-right add-padding" >
+											<a href = "{{url_for('editItem', item_id = oneitem.id)}}" class="no-padding">
+											Edit</a>
+											</span>
+											<span class="glyphicon glyphicon-remove pull-right add-padding" >
+											<a href = "{{url_for('deleteItem', item_id = oneitem.id)}}" class="no-padding" >
+											Delete</a>
+											</span>
+											{% endif  %}
+											{% endif  %}
+										</td>
+									</tr>
+									{% endfor %}
+								{% endif  %}
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% set count = count + 1 %}
+		</div>
+		{% endfor %}
+	</div>
+	{% include "footer.html" %}
+</Body>
+</html>

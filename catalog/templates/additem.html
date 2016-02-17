@@ -1,0 +1,60 @@
+<!-- 
+file: additem.html - page to let users add  the item created under catalaog project
+Created by: Vineeta Gupta
+Date: 14 Feburary 2016
+-->
+
+<!Doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width-device-width, initial-scale=1.0">
+		<link href="/static/css/bootstrap.css" rel="stylesheet">
+		<link href="/static/css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+		{% include "header.html" %}
+		<div class="container">
+			{%if 'username' in login_session %}
+			<div class="page-header">
+				<H1>Add Item</H1>
+			</div>
+			<form class="form-horizontal" action="{{ url_for('addItem',categorie_id = categorie_id )}}" method = "post" enctype="multipart/form-data" >
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Item Name:</label>
+					<div class="col-sm-5">
+						<input type="text" name="item_name" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" >Description:</label>
+					<div class="col-sm-9">
+						<input type="text" name="description" class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="file">Choose an Image:</label>
+					<div class="col-sm-5">
+						<input type="file" name="uploadimage" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<input type="submit" name="submit" value="Add Item" class="btn btn-default"/>
+						<input type="submit" name="submit" value="Cancel" class="btn btn-default"/>
+					</div>
+				</div>
+			</form>
+			{% else %}
+			<div >
+			<BR />
+			<BR/>
+				<H2>You are not logged in. Please LogIn first.</H2>
+			<BR/>
+			<BR/>
+			</div>
+			{% endif %}
+		</div>
+		{% include "footer.html" %}
+	</body>
+</html>

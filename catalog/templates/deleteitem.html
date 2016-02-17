@@ -1,0 +1,77 @@
+<!-- 
+file: deleteitem.html - page to let users delete the item under catalaog project
+Created by: Vineeta Gupta
+Date: 14 Feburary 2016
+-->
+
+<!Doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width-device-width, initial-scale=1.0">
+		<link href="/static/css/bootstrap.css" rel="stylesheet">
+		<link href="/static/css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+		{% include "header.html" %}
+		<div class="container">
+			<!-- Though we are using @login_required, still just by precatution check if the user is logged in, if not show the message.-->
+			{%if 'username' in login_session %}
+			<!-- Allow to delete only if the logged in user is the owner of the selected item-->
+				{%if login_session['user_id'] == item.user_id %}
+				<div class="page-header">
+					<H1>Delete Item</H1>
+				</div>
+				<form class="form-horizontal" action="{{ url_for('deleteItem',item_id = item.id )}}" method = "post" enctype="multipart/form-data" >
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Item Name:</label>
+						<div class="col-sm-5">
+							<label class="form-control">{{item.name}}</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" >Description:</label>
+						<div class="col-sm-9">
+							<label class="form-control" >{{item.description}}</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="file">Choose a file:</label>
+						<div class="col-sm-3">
+							{% if item.picture %}
+							<img src ='{{"/static/images/" +item.picture}}' width='50' height = '50' alt ='This is photo photo'/>
+							{% else %}
+							No Image Available
+							{% endif  %}
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-2 col-sm-10">
+								<input type="submit" name="submit" value="Delete Item" class="btn btn-default"/>
+								<input type="submit" name="submit" value="Cancel" class="btn btn-default"/>
+							</div>
+						</div>
+					</div>
+				</form>
+				{% else %}
+					<div >
+					<BR />
+					<BR/>
+						<H2>You are not the owner of the selected item.</H2>
+					<BR/>
+						<H2>You can delete only your items.</H2>
+					<BR/>
+					</div>
+				{% endif %}
+			{% else %}
+			<div >
+			<BR />
+			<BR/>
+				<H2>You are not logged in. Please LogIn first.</H2>
+			<BR/>
+			<BR/>
+			</div>
+			{% endif %}
+		</div>
+		{% include "footer.html" %}
+	</body>
+</html>

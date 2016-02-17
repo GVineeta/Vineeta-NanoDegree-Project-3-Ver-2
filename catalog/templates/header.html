@@ -1,0 +1,55 @@
+<!-- 
+file: header.html - header to be included on all pages of the  catalaog project
+Created by: Vineeta Gupta
+Date: 14 Feburary 2016
+-->
+
+<!-- This is header for all the display pages which has navigation bar & jumbotron-->
+<title> Catalog - Vineeta Gupta </title>
+<nav class="navbar navbar-default navbar-static-top no-margin" role="navigation" style="background-color:#A6B0BA">
+	<div class="container-fluid">
+		<div class="navbar-header  navbar-right">
+			<ul class="nav navbar-nav">
+				<li>
+					<a href="{{url_for('showCatalog')}}">
+						<span class="glyphicon glyphicon-home add-padding"></span>Show All Categories
+					</a>
+				</li>
+				<!-- If user is logged in show the 'Add Category', 'Logout' & Welcome Note with picture-->
+				{%if 'username' not in login_session %}
+					<li>
+						<a href="{{url_for('showLogin')}}">Click Here to Login </a>
+					</li>
+				{% else %}
+					<li>
+						<a href="{{url_for('addCategorie')}}" id="new-categorie">
+							<span class="glyphicon glyphicon-plus add-padding" ></span>Add Category	
+						</a>
+					</li>
+					<li>
+						<a href="{{url_for('disconnect')}}">
+							<span class="glyphicon glyphicon-log-out add-padding" ></span>Logout
+						</a>
+					</li>
+					<li class="add-padding">
+						Welcome {{login_session['username'] }} !
+						<img src="{{login_session['picture']}}" style = "width: 50px; height: 50px;">
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- Add a header which talks about what the site is all about & what can be done on site-->
+<div class="jumbotron no-margin" style="background-color:#DBDFE3" >
+	<div class="container">
+		<img src="/static/images/cataloglogo.jpg" style = "width: 150px; height: 150px;" class="pull-left" >
+		<div>
+			<div class="container add-left-padding">
+				<h3> Catalog of Catalogs</h3>
+				Feel free to create different Categories and different items in each category. </br>
+				Also you can add images to your categories and Items.
+			</div>
+		</div>
+	</div>
+</div>
